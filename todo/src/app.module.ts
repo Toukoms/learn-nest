@@ -1,18 +1,19 @@
+import 'tsconfig-paths/register';
+
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaModule } from './prisma/prisma.module';
 import { TodoModule } from './todo/todo.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.db',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: process.env.NODE_ENV !== 'production',
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
     TodoModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
